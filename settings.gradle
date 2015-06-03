@@ -1,0 +1,10 @@
+rootProject.name = "spock-katas"
+
+include "vending-machine"
+
+def setBuildFile(project) {
+  project.buildFileName = "${project.name}.gradle"
+  project.children.each this.&setBuildFile
+}
+
+setBuildFile rootProject

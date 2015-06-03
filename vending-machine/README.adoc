@@ -1,0 +1,9 @@
+= Vending Machine Kata
+
+A vending machine exposes the following methods:
+
+  `void insert(Coin)`
+  `void purchase(Item)`
+
+The `insert` method adds the value of a `Coin` to the credit.
+The `purchase` method
