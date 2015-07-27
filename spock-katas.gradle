@@ -1,5 +1,6 @@
 subprojects {
   apply plugin: "groovy"
+  apply plugin: "jacoco"
 
   plugins.withType(JavaPlugin) {
     sourceCompatibility = 1.8
@@ -14,6 +15,18 @@ subprojects {
     compile "org.codehaus.groovy:groovy-all:2.4.3"
     testCompile "org.spockframework:spock-core:1.0-groovy-2.4"
   }
+
+  jacocoTestReport {
+    group = "reporting"
+    description = "Generate Jacoco coverage reports after running tests."
+    reports {
+      xml.enabled false
+      html.enabled true
+      csv.enabled false
+    }
+  }
+
+  check.dependsOn jacocoTestReport
 }
 
 defaultTasks "build"

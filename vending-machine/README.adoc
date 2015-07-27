@@ -5,5 +5,15 @@ A vending machine exposes the following methods:
   `void insert(Coin)`
   `void purchase(Item)`
 
-The `insert` method adds the value of a `Coin` to the credit.
-The `purchase` method
+The `insert` method:
+- adds the value of a `Coin` to credit.
+
+The `purchase` method:
+- dispenses an item if there is sufficient credit.
+- deducts the item cost from credit if an item is dispensed.
+- returns change if an the amount of credit is greater than the cost of the item dispensed.
+- throws `OutOfStock` if the requested item is out of stock.
+- throws `InsertCoins` if there is insufficient credit to purchase the requested item.
+- throws `CannotMakeChange` if it's impossible to dispense change for the purchase.
+- does not dispense item or change it an exception is thrown.
+- does not deduct from credit if an exception is thrown.
