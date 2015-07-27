@@ -2,9 +2,9 @@ package katas.vending;
 
 public class VendingMachine {
 
-  private final CoinHopper hopper;
+  private final VendingMachineHardware hopper;
 
-  public VendingMachine(CoinHopper hopper) {
+  public VendingMachine(VendingMachineHardware hopper) {
     this.hopper = hopper;
   }
 

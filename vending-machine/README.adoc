@@ -3,7 +3,8 @@
 A vending machine exposes the following methods:
 
   `void insert(Coin)`
-  `void purchase(Item)`
+  `void purchase(Product)`
+  `void stock(Product, int)`
 
 The `insert` method:
 - adds the value of a `Coin` to credit.

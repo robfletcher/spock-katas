@@ -1,6 +1,6 @@
 package katas.vending;
 
-public interface CoinHopper {
+public interface VendingMachineHardware {
 
   /**
    * Dispenses `n` of a coin.
