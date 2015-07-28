@@ -1,0 +1,6 @@
+== Rules
+
+- When passed an argument divisible by 3 the function should return `fizz`.
+- When passed an argument divisible by 5 the function should return `buzz`.
+- When passed an argument divisible by 3 _and_ 5 the function should return `fizzbuzz`.
+- When passed any other argument the function should return the argument.
