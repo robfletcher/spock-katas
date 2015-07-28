@@ -1,0 +1,7 @@
+jacocoTestReport {
+  afterEvaluate {
+    classDirectories = files(classDirectories.files.collect {
+      fileTree(dir: it, include: "katas/vending/VendingMachine.class")
+    })
+  }
+}
