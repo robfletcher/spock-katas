@@ -1,0 +1,4 @@
+== Rules
+
+- The anagrams function should return a set of all _unique_ anagrams of the argument string.
+- If given the empty string the function should return an empty set.
