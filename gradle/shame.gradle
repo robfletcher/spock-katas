@@ -7,17 +7,6 @@ buildscript {
   }
 }
 
-ext {
-  limits = [
-      instruction: 100,
-      branch     : 100,
-      line       : 100,
-      complexity : 100,
-      method     : 100,
-      "class"    : 100
-  ]
-}
-
 jacocoTestReport.doLast {
   def report = file("${jacoco.reportsDir}/test/jacocoTestReport.xml")
   logger.lifecycle("Checking coverage results: ${report}")
@@ -28,40 +17,26 @@ jacocoTestReport.doLast {
   def results = parser.parse(report)
 
   def percentage = { Node node ->
-    def covered = node?."@covered" as Double ?: 0
-    def missed = node?."@missed" as Double ?: 0
+    def covered = node."@covered" as Double
+    def missed = node."@missed" as Double
     ((covered / (covered + missed)) * 100).round(2)
   }
 
-  def counters = results.counter
+  def counters = ["INSTRUCTION", "BRANCH", "LINE", "COMPLEXITY", "METHOD", "CLASS"]
   def metrics = [:]
-  metrics << [
-      instruction: percentage(counters.find {
-        it."@type" == "INSTRUCTION"
-      }),
-      branch     : percentage(counters.find {
-        it."@type" == "BRANCH"
-      }),
-      line       : percentage(counters.find {
-        it."@type" == "LINE"
-      }),
-      complexity : percentage(counters.find {
-        it."@type" == "COMPLEXITY"
-      }),
-      method     : percentage(counters.find {
-        it."@type" == "METHOD"
-      }),
-      "class"    : percentage(counters.find {
-        it."@type" == "CLASS"
-      })
-  ]
-
+  counters.each { counter ->
+    def node = results.counter.find {
+      it."@type" == counter
+    }
+    if (node) {
+      metrics[counter] = percentage(node)
+    }
+  }
 
   def failures = []
   metrics.each {
-    def limit = limits[it.key]
-    if (it.value < limit) {
-      failures << "- ${it.key} coverage rate is: ${it.value}%, minimum is ${limit}%"
+    if (it.value < 100) {
+      failures << "- ${it.key.toLowerCase()} coverage rate is: ${it.value}%"
     }
   }
 
