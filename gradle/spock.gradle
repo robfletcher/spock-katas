@@ -1,0 +1,15 @@
+apply plugin: "groovy"
+
+plugins.withType(JavaPlugin) {
+  sourceCompatibility = 1.6
+  targetCompatibility = 1.6
+}
+
+repositories {
+  jcenter()
+}
+
+dependencies {
+  compile "org.codehaus.groovy:groovy-all:2.4.4"
+  testCompile "org.spockframework:spock-core:1.0-groovy-2.4"
+}

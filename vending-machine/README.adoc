@@ -1,20 +1,22 @@
 = Vending Machine Kata
 
+Your task is to implement the `VendingMachine` class with appropriate tests.
+You should *not* attempt to implement the `VendingMachineHardware` interface – this is the job of the hardware team!
+
+Work test first.
+Watch the code coverage and try to keep it at 100% before moving on to the next test.
+
 A vending machine exposes the following methods:
 
   `void insert(Coin)`
   `void purchase(Product)`
   `void stock(Product, int)`
 
-The `insert` method:
-- adds the value of a `Coin` to credit.
+The `insert` method adds the value of a `Coin` to credit.
 
-The `purchase` method:
-- dispenses an item if there is sufficient credit.
-- deducts the item cost from credit if an item is dispensed.
-- returns change if an the amount of credit is greater than the cost of the item dispensed.
-- throws `OutOfStock` if the requested item is out of stock.
-- throws `InsertCoins` if there is insufficient credit to purchase the requested item.
-- throws `CannotMakeChange` if it's impossible to dispense change for the purchase.
-- does not dispense item or change it an exception is thrown.
-- does not deduct from credit if an exception is thrown.
+The `stock` method adds products to the machine's stock.
+
+The `purchase` method dispenses an item if there is sufficient credit.
+It also deducts the item cost from credit if an item is dispensed and returns change if an the amount of credit is greater than the cost of the item dispensed.
+If the requested item is out of stock, there is insufficient credit or it's impossible to dispense change for the purchase the method throws an exception.
+If an exception is thrown the method does not dispense the product or any change or deduct from credit.
