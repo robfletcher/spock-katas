@@ -1,6 +1,9 @@
 subprojects {
   apply from: "${rootDir}/gradle/spock.gradle"
   apply from: "${rootDir}/gradle/jacoco.gradle"
+  apply from: "${rootDir}/gradle/shame.gradle"
 }
 
-defaultTasks "build"
+allprojects {
+  defaultTasks "build"
+}

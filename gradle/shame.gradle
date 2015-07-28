@@ -1,0 +1,83 @@
+buildscript {
+  repositories {
+    jcenter()
+  }
+  dependencies {
+    classpath "javazoom:jlayer:1.0.1"
+  }
+}
+
+ext {
+  limits = [
+      instruction: 100,
+      branch     : 100,
+      line       : 100,
+      complexity : 100,
+      method     : 100,
+      "class"    : 100
+  ]
+}
+
+jacocoTestReport.doLast {
+  def report = file("${jacoco.reportsDir}/test/jacocoTestReport.xml")
+  logger.lifecycle("Checking coverage results: ${report}")
+
+  def parser = new XmlParser()
+  parser.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+  parser.setFeature("http://apache.org/xml/features/disallow-doctype-decl", false)
+  def results = parser.parse(report)
+
+  def percentage = { Node node ->
+    def covered = node?."@covered" as Double ?: 0
+    def missed = node?."@missed" as Double ?: 0
+    ((covered / (covered + missed)) * 100).round(2)
+  }
+
+  def counters = results.counter
+  def metrics = [:]
+  metrics << [
+      instruction: percentage(counters.find {
+        it."@type" == "INSTRUCTION"
+      }),
+      branch     : percentage(counters.find {
+        it."@type" == "BRANCH"
+      }),
+      line       : percentage(counters.find {
+        it."@type" == "LINE"
+      }),
+      complexity : percentage(counters.find {
+        it."@type" == "COMPLEXITY"
+      }),
+      method     : percentage(counters.find {
+        it."@type" == "METHOD"
+      }),
+      "class"    : percentage(counters.find {
+        it."@type" == "CLASS"
+      })
+  ]
+
+
+  def failures = []
+  metrics.each {
+    def limit = limits[it.key]
+    if (it.value < limit) {
+      failures << "- ${it.key} coverage rate is: ${it.value}%, minimum is ${limit}%"
+    }
+  }
+
+  if (failures) {
+    logger.quiet("------------------ Code Coverage Failed -----------------------")
+    failures.each {
+      logger.quiet(it)
+    }
+    logger.quiet("---------------------------------------------------------------")
+    def file = new File(rootDir, "gradle/shame.mp3")
+    assert file.isFile()
+    file.withInputStream { stream ->
+      new javazoom.jl.player.Player(stream).play()
+    }
+    throw new GradleException("Code coverage failed")
+  } else {
+    logger.quiet("Passed Code Coverage Checks")
+  }
+}
