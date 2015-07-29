@@ -5,13 +5,13 @@ You can start with the simplest or jump straight into a more complex one.
 
 In order of complexity they are:
 
-- Simple algorithms:
-	- The _Fizz/Buzz_ Kata
-	- The _Anagrams_ Kata
-- Complex algorithms
-	- The _Diamond_ Kata
-- Interaction testing
-	- The _Vending Machine_ Kata
+* Simple algorithms:
+** The _Fizz/Buzz_ Kata
+** The _Anagrams_ Kata
+* Complex algorithms
+** The _Diamond_ Kata
+* Interaction testing
+** The _Vending Machine_ Kata
 
 Although you can build all the katas at once from the root it's probably best to `cd` into the kata you want to work on and build only that kata with `../gradlew`.
 
@@ -22,8 +22,8 @@ The skeleton source code in each kata is written in Java but feel free to conver
 
 == Requirements
 
-- JDK 8
-- Git
+* JDK 8
+* Git
 
 == Get started
 
