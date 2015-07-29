@@ -22,4 +22,11 @@ If an exception is thrown the method does not dispense the product or any change
 
 == Extra credit
 
+=== Interface enhancements
+
 Allow the user to make multiple purchases before receiving change.
+
+=== Persistence
+
+Use a persistent store (for example _h2_ or _jedis_) to track stock and coin levels.
+Manage the store so that your tests remain idempotent.
