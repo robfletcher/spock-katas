@@ -5,6 +5,6 @@ import spock.lang.Subject
 
 class AnagramsSpec extends Specification {
 
-  @Subject def anagrams = new Anagrams()
+  @Subject def function = new Anagrams()
 
 }
