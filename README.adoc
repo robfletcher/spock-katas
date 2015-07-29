@@ -1,0 +1,27 @@
+= Spock Katas
+
+This workshop is composed of several small TDD exercises.
+
+In order of complexity they are:
+
+- The _Fizz/Buzz_ Kata
+= The _Anagrams_ Kata
+= The _Vending Machine_ Kata
+
+Although you can build all the katas at once from the root it's probably best to `cd` into the kata you want to work on and build only that kata with `../gradlew`.
+
+Each kata is designed to be approached in a test-first fashion so 100% code coverage is _required_.
+Prepare to be shamed if your coverage is inadequate!
+
+== Requirements
+
+- JDK 8
+- Git
+
+== Get started
+
+----
+git clone https://github.com/robfletcher/spock-katas.git
+cd fizz-buzz
+../gradlew
+----
