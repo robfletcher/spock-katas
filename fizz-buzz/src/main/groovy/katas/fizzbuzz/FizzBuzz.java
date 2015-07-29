@@ -1,9 +1,6 @@
 package katas.fizzbuzz;
 
-import java.util.function.Function;
-
-public class FizzBuzz implements Function<Integer, String> {
-  @Override
+public class FizzBuzz {
   public String apply(Integer input) {
     return null;
   }
