@@ -13,6 +13,8 @@ Although you can build all the katas at once from the root it's probably best to
 Each kata is designed to be approached in a test-first fashion so 100% code coverage is _required_.
 Prepare to be shamed if your coverage is inadequate!
 
+The skeleton source code in each kata is written in Java but feel free to convert it to Groovy (or any other language) if you prefer.
+
 == Requirements
 
 - JDK 8
