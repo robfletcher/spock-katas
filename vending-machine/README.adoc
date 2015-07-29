@@ -1,10 +1,9 @@
-= Vending Machine Kata
+= The Vending Machine Kata
 
 Your task is to implement the `VendingMachine` class with appropriate tests.
 You should *not* attempt to implement the `VendingMachineHardware` interface – this is the job of the hardware team!
-
-Work test first.
-Watch the code coverage and try to keep it at 100% before moving on to the next test.
+Change or extend anything else if you feel like you need to.
+Code coverage is only applied to `VendingMachine`.
 
 A vending machine exposes the following methods:
 
@@ -20,3 +19,7 @@ The `purchase` method dispenses an item if there is sufficient credit.
 It also deducts the item cost from credit if an item is dispensed and returns change if an the amount of credit is greater than the cost of the item dispensed.
 If the requested item is out of stock, there is insufficient credit or it's impossible to dispense change for the purchase the method throws an exception.
 If an exception is thrown the method does not dispense the product or any change or deduct from credit.
+
+== Extra credit
+
+Allow the user to make multiple purchases before receiving change.

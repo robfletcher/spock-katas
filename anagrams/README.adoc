@@ -1,4 +1,14 @@
-== Rules
+= The Anagrams Kata
 
-- The anagrams function should return a set of all _unique_ anagrams of the argument string.
-- If given the empty string the function should return an empty set.
+The anagrams function should return a set of all _unique_ anagrams of the argument string.
+If given the empty string the function should return an empty set.
+
+== Extra credit
+
+=== Externalized data sources
+
+Read test values from a CSV file.
+
+=== Property-based testing
+
+Implement or import a generator for appropriate values for each test case.

@@ -1,4 +1,6 @@
-== Rules
+= The Fizz/Buzz Kata
+
+An implementation of the well-known party / drinking game.
 
 - When passed an argument divisible by 3 the function should return `fizz`.
 - When passed an argument divisible by 5 the function should return `buzz`.
