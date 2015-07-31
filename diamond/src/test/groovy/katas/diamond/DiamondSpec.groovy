@@ -1,13 +1,11 @@
 package katas.diamond
 
 import groovy.transform.CompileStatic
+import spock.genesis.Gen
 import spock.lang.Specification
 import spock.lang.Subject
 import spock.lang.Unroll
 import spock.util.mop.Use
-import static net.java.quickcheck.generator.CombinedGenerators.uniqueValues
-import static net.java.quickcheck.generator.CombinedGeneratorsIterables.someExcludeValues
-import static net.java.quickcheck.generator.PrimitiveGenerators.characters
 
 class DiamondSpec extends Specification {
 
@@ -31,7 +29,9 @@ class DiamondSpec extends Specification {
     thrown IllegalArgumentException
 
     where:
-    c << someExcludeValues(uniqueValues(characters()), A..Z).take(20)
+    c << Gen.character
+            .filter { !(A..Z).contains(it) }
+            .take(10)
   }
 
   /**
@@ -59,7 +59,7 @@ class DiamondSpec extends Specification {
     result.every { it.length() == result.size() }
 
     where:
-    c << RANGE
+    c << Gen.any(RANGE).take(10)
   }
 
   /**
@@ -86,7 +86,7 @@ class DiamondSpec extends Specification {
     result.size() == expectedSize
 
     where:
-    c << RANGE
+    c << Gen.any(RANGE).take(10)
     expectedSize = ((c - A) * 2) + 1
   }
 
@@ -111,7 +111,7 @@ class DiamondSpec extends Specification {
     result == result.reverse()
 
     where:
-    c << RANGE
+    c << Gen.any(RANGE).take(10)
   }
 
   /**
@@ -143,7 +143,7 @@ class DiamondSpec extends Specification {
     }
 
     where:
-    c << RANGE
+    c << Gen.any(RANGE).take(10)
   }
 
   /**
@@ -170,7 +170,7 @@ class DiamondSpec extends Specification {
     }
 
     where:
-    c << RANGE
+    c << Gen.any(RANGE).take(10)
   }
 }
 
@@ -178,8 +178,8 @@ class DiamondSpec extends Specification {
 @Category(String)
 class StringOps {
   String without(int index) {
-    def list = this.toList()
-    list.remove(index)
-    return list.join("")
+    new StringBuilder(this)
+        .deleteCharAt(index)
+        .toString()
   }
 }

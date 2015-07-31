@@ -1,15 +1,13 @@
 package katas.fizzbuzz
 
-import spock.lang.Shared
+import spock.genesis.Gen
 import spock.lang.Specification
 import spock.lang.Subject
 import spock.lang.Unroll
-import static net.java.quickcheck.generator.PrimitiveGeneratorsIterables.someIntegers
 
 class FizzBuzzSpec extends Specification {
 
   @Subject def function = new FizzBuzz()
-  @Shared def integers = someIntegers()
 
   /**
    * This first test case can be made to pass by simply returning "fizz"
@@ -23,7 +21,7 @@ class FizzBuzzSpec extends Specification {
     function.apply(n) == "fizz"
 
     where:
-    n << integers.findAll { it % 3 == 0 && it % 5 != 0 }
+    n << Gen.integer.filter { it % 3 == 0 && it % 5 != 0 }.take(20)
   }
 
   /**
@@ -38,7 +36,7 @@ class FizzBuzzSpec extends Specification {
     function.apply(n) == "buzz"
 
     where:
-    n << integers.findAll { it % 5 == 0 && it % 3 != 0 }
+    n << Gen.integer.filter { it % 5 == 0 && it % 3 != 0 }.take(20)
   }
 
   /**
@@ -55,7 +53,7 @@ class FizzBuzzSpec extends Specification {
     function.apply(n) == "fizzbuzz"
 
     where:
-    n << integers.findAll { it % 3 == 0 && it % 5 == 0 }
+    n << Gen.integer.filter { it % 3 == 0 && it % 5 == 0 }.take(20)
   }
 
   /**
@@ -75,7 +73,7 @@ class FizzBuzzSpec extends Specification {
     function.apply(n) == n.toString()
 
     where:
-    n << integers.findAll { it % 3 != 0 && it % 5 != 0 }
+    n << Gen.integer.filter { it % 3 != 0 && it % 5 != 0 }.take(20)
   }
 
 }
