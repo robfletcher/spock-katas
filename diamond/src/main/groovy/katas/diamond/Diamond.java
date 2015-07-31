@@ -2,7 +2,6 @@ package katas.diamond;
 
 import java.util.ArrayList;
 import java.util.List;
-import static java.lang.Math.floorDiv;
 import static java.util.Collections.unmodifiableList;
 
 public class Diamond {
@@ -10,30 +9,28 @@ public class Diamond {
     if (c < 'A' || c > 'Z') {
       throw new IllegalArgumentException("character out of range");
     }
-    int size = ((c - 'A') * 2) + 1;
+    int midpoint = c - 'A';
+    return unmodifiableList(buildRows(midpoint));
+  }
 
-    int midpoint = floorDiv(size, 2);
-    int before = midpoint;
-    int after = 0;
-
+  private List<String> buildRows(int midpoint) {
     List<String> result = new ArrayList<>();
-
     for (int row = 0; row <= midpoint; row++) {
-      char rowChar = (char) ('A' + row);
-
-      StringBuilder line = new StringBuilder();
-      pad(line, before);
-      line.append(rowChar);
-      pad(line, after);
-      mirror(line);
-      result.add(line.toString());
-
-      before--;
-      after++;
+      result.add(buildRow(midpoint, row));
     }
     mirror(result);
+    return result;
+  }
 
-    return unmodifiableList(result);
+  private String buildRow(int midpoint, int rowIndex) {
+    char rowChar = (char) ('A' + rowIndex);
+
+    StringBuilder line = new StringBuilder();
+    pad(line, midpoint - rowIndex);
+    line.append(rowChar);
+    pad(line, rowIndex);
+    mirror(line);
+    return line.toString();
   }
 
   private void pad(StringBuilder line, int numChars) {
@@ -43,12 +40,13 @@ public class Diamond {
   }
 
   private void mirror(StringBuilder line) {
-    line.append(new StringBuffer(line.substring(0, line.length() - 1)).reverse());
+    line.append(new StringBuilder(line.substring(0, line.length() - 1)).reverse());
   }
 
-  private void mirror(List<String> result) {
-    for (int i = result.size() - 2; i >= 0; i--) {
-      result.add(result.get(i));
+  private void mirror(List<String> lines) {
+    int index = lines.size();
+    for (int i = 0; i < index - 1; i++) {
+      lines.add(index, lines.get(i));
     }
   }
 }
