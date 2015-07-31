@@ -1,10 +1,13 @@
 package katas.fizzbuzz
 
+import groovy.transform.CompileStatic
 import spock.genesis.Gen
 import spock.lang.Specification
 import spock.lang.Subject
 import spock.lang.Unroll
+import spock.util.mop.Use
 
+@Use(IntegerExtensions)
 class FizzBuzzSpec extends Specification {
 
   @Subject def function = new FizzBuzz()
@@ -21,7 +24,9 @@ class FizzBuzzSpec extends Specification {
     function.apply(n) == "fizz"
 
     where:
-    n << Gen.integer.filter { it % 3 == 0 && it % 5 != 0 }.take(20)
+    n << Gen.integer
+            .filter { it.isMultipleOf(3) && !it.isMultipleOf(5) }
+            .take(20)
   }
 
   /**
@@ -36,7 +41,9 @@ class FizzBuzzSpec extends Specification {
     function.apply(n) == "buzz"
 
     where:
-    n << Gen.integer.filter { it % 5 == 0 && it % 3 != 0 }.take(20)
+    n << Gen.integer
+            .filter { it.isMultipleOf(5) && !it.isMultipleOf(3) }
+            .take(20)
   }
 
   /**
@@ -53,7 +60,9 @@ class FizzBuzzSpec extends Specification {
     function.apply(n) == "fizzbuzz"
 
     where:
-    n << Gen.integer.filter { it % 3 == 0 && it % 5 == 0 }.take(20)
+    n << Gen.integer
+            .filter { it.isMultipleOf(3) && it.isMultipleOf(5) }
+            .take(20)
   }
 
   /**
@@ -73,7 +82,17 @@ class FizzBuzzSpec extends Specification {
     function.apply(n) == n.toString()
 
     where:
-    n << Gen.integer.filter { it % 3 != 0 && it % 5 != 0 }.take(20)
+    n << Gen.integer
+            .filter { !it.isMultipleOf(3) && !it.isMultipleOf(5) }
+            .take(20)
   }
 
+}
+
+@Category(Integer)
+@CompileStatic
+class IntegerExtensions {
+  boolean isMultipleOf(int n) {
+    this % n == 0
+  }
 }
