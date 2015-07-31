@@ -15,7 +15,6 @@ class DiamondSpec extends Specification {
 
   private static final char A = 'A'
   private static final char B = 'B'
-  private static final char D = 'D'
   private static final char Z = 'Z'
   private static final Range<Character> RANGE = B..Z
 
@@ -123,10 +122,10 @@ class DiamondSpec extends Specification {
    * later be refactored to generate only the "top half" of the diamond and then
    * mirror it.
    *
-   * Although this test verifies that only the correct character or - appears in
-   * the correct place in each row, it makes no assertion about the other
-   * characters in the row. We can inch the solution forward by just filling
-   * each row with the appropriate character.
+   * Although this test verifies that only the correct character appears in the
+   * correct place in each row, it makes no assertion about the other characters
+   * in the row. We can inch the solution forward by just filling each row with
+   * the appropriate character.
    *
    * Note that we're only verifying the "top left" quadrant of the result as we
    * already know the result is horizontally and vertically symmetrical.
