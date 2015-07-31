@@ -154,9 +154,9 @@ class DiamondSpec extends Specification {
    * Again we only need to check the "top left" quadrant of the result as we
    * have already ensured that the result is symmetrical.
    */
-  @Unroll("each row of diamond #c should contain - in every other column")
+  @Unroll("each row of diamond #c should contain padding in every other column")
   @Use(StringOps)
-  def "each row should contain - in every other column"() {
+  def "each row should contain padding in every other column"() {
     given:
     def result = function.apply(c)
 
