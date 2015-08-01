@@ -1,11 +1,9 @@
 package katas.diamond
 
-import groovy.transform.CompileStatic
 import spock.genesis.Gen
 import spock.lang.Specification
 import spock.lang.Subject
 import spock.lang.Unroll
-import spock.util.mop.Use
 
 class DiamondSpec extends Specification {
 
@@ -49,6 +47,10 @@ class DiamondSpec extends Specification {
    * Making this test pass does not require us to make any changes as we're just
    * returning a constant. We will however keep it passing as we develop the
    * solution further.
+   *
+   * Note that we only check diamonds for the characters starting at B. We
+   * already know from the previous test that the special case of diamond(A) is
+   * correct so there's no need to assert anything further about it.
    */
   @Unroll("the diamond of #c is square")
   def "diamonds are always square"() {
@@ -56,10 +58,10 @@ class DiamondSpec extends Specification {
     def result = function.apply(c)
 
     expect:
-    result.every { it.length() == result.size() }
+    result*.length().every { it == result.size() }
 
     where:
-    c << Gen.any(RANGE).take(10)
+    c << Gen.these(RANGE)
   }
 
   /**
@@ -86,7 +88,7 @@ class DiamondSpec extends Specification {
     result.size() == expectedSize
 
     where:
-    c << Gen.any(RANGE).take(10)
+    c << Gen.these(RANGE)
     expectedSize = ((c - A) * 2) + 1
   }
 
@@ -111,7 +113,7 @@ class DiamondSpec extends Specification {
     result == result.reverse()
 
     where:
-    c << Gen.any(RANGE).take(10)
+    c << Gen.these(RANGE)
   }
 
   /**
@@ -128,58 +130,62 @@ class DiamondSpec extends Specification {
    * the appropriate character.
    *
    * Note that we're only verifying the "top left" quadrant of the result as we
-   * already know the result is horizontally and vertically symmetrical.
+   * already know from a previous test that the diamond is horizontally and
+   * vertically symmetrical.
+   *
+   * This is a rare instance where it seems appropriate to use the assert
+   * keyword in a Spock specification. I couldn't find another way to make the
+   * assertion that didn't hide what the actual problem was if the test failed.
+   * Spock's output does not break down the boolean condition inside an "every"
+   * closure (how could it – it would have to do so for every element in the
+   * list). This implementation has the disadvantage that it will fail fast on
+   * the first incorrect row but it will at least provide diagrammed power
+   * assert output so you can see what's wrong.
    */
-  @Unroll("each row of diamond #c should contain the appropriate character in the right column")
+  @Unroll("each row of diamond #c should contain its character in the right column")
   def "each row should contain its character at the correct position"() {
     given:
     def result = function.apply(c)
 
     expect:
-    for (rowChar in (A..c)) {
-      def row = (rowChar - A)
-      def col = result.size().intdiv(2) - (rowChar - A)
-      assert result[row].charAt(col) == rowChar
+    int midpoint = result.size().intdiv(2)
+    def half = 0..midpoint
+    result[half].eachWithIndex { line, i ->
+      assert line.charAt(midpoint - i) == (A..Z)[i]
     }
 
     where:
-    c << Gen.any(RANGE).take(10)
+    c << Gen.these(RANGE)
   }
 
   /**
    * Our final test requires that every character other than the row character
-   * in the correct column should be -. With this in place we have a complete
-   * implementation of the diamond.
+   * should be padding.
+   *
+   * Again we save some effort here because of the assertions we have made in
+   * previous tests. We already know that the correct A-Z character is on each
+   * line and that it appears in the right index. That means here we can simply
+   * take half of each line, remove the first occurrence of any A-Z character
+   * wherever it is and then assert that we are left with nothing but padding
+   * characters.
    *
    * Again we only need to check the "top left" quadrant of the result as we
    * have already ensured that the result is symmetrical.
+   *
+   * With this in place we have a complete implementation of the diamond.
    */
   @Unroll("each row of diamond #c should contain padding in every other column")
-  @Use(StringOps)
   def "each row should contain padding in every other column"() {
     given:
     def result = function.apply(c)
 
     expect:
-    for (rowChar in (A..c)) {
-      def row = (rowChar - A)
-      def midpoint = result.size().intdiv(2)
-      def col = midpoint - (rowChar - A)
-      def line = result[row][0..midpoint]
-      assert line.without(col) ==~ /-+/
+    def half = [0..result.size().intdiv(2)]
+    result[half].every { line ->
+      line[half].replaceFirst(/[A-Z]/, "") ==~ /-+/
     }
 
     where:
-    c << Gen.any(RANGE).take(10)
-  }
-}
-
-@CompileStatic
-@Category(String)
-class StringOps {
-  String without(int index) {
-    new StringBuilder(this)
-        .deleteCharAt(index)
-        .toString()
+    c << Gen.these(RANGE)
   }
 }
