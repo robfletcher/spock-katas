@@ -7,7 +7,7 @@ public interface VendingMachineHardware {
    *
    * @throws IllegalStateException if there are fewer than `n` of `coin`.
    */
-  void dispense(Coin coin, int n);
+  void refund(Coin coin, int n);
 
   /**
    * @return the number of coins of type `coin` currently held.
@@ -25,4 +25,11 @@ public interface VendingMachineHardware {
    * @return the number of `product` currently in stock.
    */
   int stock(Product product);
+
+  /**
+   * Adds a coin of given type to the correct tube
+   *
+   * @param coin the coin to be added
+   */
+  void addCoin(Coin coin);
 }
